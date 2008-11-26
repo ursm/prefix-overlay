@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<layman>
+  <overlay type="mercurial" src="https://bitbucket.org/ursm/prefix-overlay/" contact="ursm@ursm.jp" name="ursm">
+    <description>ursm's prefix overlay</description>
+  </overlay>
+</layman>
+
