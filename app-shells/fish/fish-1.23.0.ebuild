@@ -27,7 +27,7 @@ src_unpack() {
 	epatch "${FILESDIR}"/fish-1.23.0-gentoo-alt.patch
 	epatch "${FILESDIR}"/fish-1.23.0-configure-ac.patch
 	epatch "${FILESDIR}"/fish-1.23.0-eprefixify.patch
-	eprefixify share/config.fish.in
+	eprefixify env.c share/config.fish.in
 	eautoreconf
 }
 

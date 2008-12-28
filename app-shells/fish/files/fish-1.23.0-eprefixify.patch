@@ -1,3 +1,15 @@
+diff --git a/env.c b/env.c
+--- a/env.c
++++ b/env.c
+@@ -61,7 +61,7 @@
+ /**
+    Command used to start fishd
+ */
+-#define FISHD_CMD L"fishd ^/tmp/fishd.log.%s"
++#define FISHD_CMD L"@GENTOO_PORTAGE_EPREFIX@/bin/fishd ^@GENTOO_PORTAGE_EPREFIX@/var/tmp/fishd.log.%s"
+ 
+ /**
+    Value denoting a null string
 diff --git a/share/config.fish.in b/share/config.fish.in
 --- a/share/config.fish.in
 +++ b/share/config.fish.in
