@@ -13,7 +13,7 @@ diff --git a/env.c b/env.c
 diff --git a/share/config.fish.in b/share/config.fish.in
 --- a/share/config.fish.in
 +++ b/share/config.fish.in
-@@ -72,12 +72,12 @@
+@@ -72,18 +72,18 @@
  # want this even for text-only terminals.
  #
  
@@ -28,3 +28,10 @@ diff --git a/share/config.fish.in b/share/config.fish.in
  end
  
  for i in $path_list
+ 	if not contains $i $PATH
+ 		if test -d $i
+-			set PATH $PATH $i
++			set PATH $i $PATH
+ 		end
+ 	end
+ end
