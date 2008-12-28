@@ -1,0 +1,18 @@
+diff --git a/share/config.fish.in b/share/config.fish.in
+--- a/share/config.fish.in
++++ b/share/config.fish.in
+@@ -72,12 +72,12 @@
+ # want this even for text-only terminals.
+ #
+ 
+-set -l path_list /bin /usr/bin /usr/X11R6/bin /usr/local/bin @prefix@/bin @optbindirs@
++set -l path_list @GENTOO_PORTAGE_EPREFIX@/bin @GENTOO_PORTAGE_EPREFIX@/usr/bin @GENTOO_PORTAGE_EPREFIX@/usr/local/bin /bin /usr/bin /usr/local/bin
+ 
+ # Root should also have the sbin directories in the path
+ switch $USER
+ 	case root
+-	set path_list $path_list /sbin /usr/sbin /usr/local/sbin @prefix@/sbin
++	set path_list $path_list @GENTOO_PORTAGE_EPREFIX@/sbin @GENTOO_PORTAGE_EPREFIX@/usr/sbin @GENTOO_PORTAGE_EPREFIX@/usr/local/sbin /sbin /usr/sbin /usr/local/sbin
+ end
+ 
+ for i in $path_list
