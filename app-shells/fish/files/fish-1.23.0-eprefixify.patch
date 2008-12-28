@@ -13,25 +13,45 @@ diff --git a/env.c b/env.c
 diff --git a/share/config.fish.in b/share/config.fish.in
 --- a/share/config.fish.in
 +++ b/share/config.fish.in
-@@ -72,18 +72,18 @@
+@@ -6,6 +6,15 @@
+ # @configure_input@
+ 
+ #
++# Load environment settings from profile.env,  which is created by
++# env-update from the files in /etc/env.d
++#
++
++if test -e @GENTOO_PORTAGE_EPREFIX@/etc/profile.env
++	@GENTOO_PORTAGE_EPREFIX@/bin/sed -e 's/^export \([A-Za-z_]\+\)=\(.*\)$/set -x \1 \2/g' -e 'y/:/ /' -e "y/'/ /" @GENTOO_PORTAGE_EPREFIX@/etc/profile.env | .
++end
++
++#
+ # Set default field separators
+ #
+ 
+@@ -72,21 +81,15 @@
  # want this even for text-only terminals.
  #
  
 -set -l path_list /bin /usr/bin /usr/X11R6/bin /usr/local/bin @prefix@/bin @optbindirs@
-+set -l path_list @GENTOO_PORTAGE_EPREFIX@/bin @GENTOO_PORTAGE_EPREFIX@/usr/bin @GENTOO_PORTAGE_EPREFIX@/usr/local/bin /bin /usr/bin /usr/local/bin
- 
+-
  # Root should also have the sbin directories in the path
  switch $USER
  	case root
 -	set path_list $path_list /sbin /usr/sbin /usr/local/sbin @prefix@/sbin
-+	set path_list $path_list @GENTOO_PORTAGE_EPREFIX@/sbin @GENTOO_PORTAGE_EPREFIX@/usr/sbin @GENTOO_PORTAGE_EPREFIX@/usr/local/sbin /sbin /usr/sbin /usr/local/sbin
++	set -x PATH @GENTOO_PORTAGE_EPREFIX@/usr/sbin @GENTOO_PORTAGE_EPREFIX@/usr/bin @GENTOO_PORTAGE_EPREFIX@/sbin @GENTOO_PORTAGE_EPREFIX@/bin $ROOTPATH /usr/sbin /usr/bin /sbin /bin
++	case '*'
++	set -x PATH @GENTOO_PORTAGE_EPREFIX@/usr/bin @GENTOO_PORTAGE_EPREFIX@/bin $PATH /usr/bin /bin
  end
  
- for i in $path_list
- 	if not contains $i $PATH
- 		if test -d $i
+-for i in $path_list
+-	if not contains $i $PATH
+-		if test -d $i
 -			set PATH $PATH $i
-+			set PATH $i $PATH
- 		end
- 	end
- end
+-		end
+-	end
+-end
++set -e ROOTPATH
+ 
+ #
+ # Launch debugger on SIGTRAP
