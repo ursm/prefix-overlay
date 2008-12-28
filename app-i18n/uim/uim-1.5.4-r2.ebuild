@@ -1,10 +1,9 @@
 # Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-i18n/uim/uim-1.5.4-r1.ebuild,v 1.1 2008/10/29 17:00:51 matsuu Exp $
+# $Header: /var/cvsroot/gentoo-x86/app-i18n/uim/uim-1.5.4-r2.ebuild,v 1.1 2008/12/09 17:46:04 matsuu Exp $
 
 EAPI="prefix 2"
-
-inherit eutils qt3 multilib elisp-common flag-o-matic
+inherit autotools eutils qt3 multilib elisp-common flag-o-matic
 
 DESCRIPTION="Simple, secure and flexible input method library"
 HOMEPAGE="http://code.google.com/p/uim/"
@@ -12,17 +11,22 @@ SRC_URI="http://uim.googlecode.com/files/${P}.tar.bz2"
 
 LICENSE="BSD GPL-2 LGPL-2.1"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~hppa ~ppc ~ppc64 ~sparc ~x86 ~x86-macos"
-IUSE="anthy canna eb emacs gnome gtk kde libedit libnotify m17n-lib ncurses nls prime qt3 qt4 truetype unicode X linguas_zh_CN linguas_ja linguas_ko"
+KEYWORDS="~amd64-linux ~x86-linux ~x86-macos"
+IUSE="+anthy canna eb emacs gnome gtk kde libedit libnotify m17n-lib ncurses nls prime qt3 qt4 truetype unicode X linguas_zh_CN linguas_zh_TW linguas_ja linguas_ko"
 
-RDEPEND="X? ( x11-libs/libX11
+RDEPEND="X? (
+		x11-libs/libX11
 		x11-libs/libXft
 		x11-libs/libXt
 		x11-libs/libICE
 		x11-libs/libSM
 		x11-libs/libXext
-		x11-libs/libXrender )
-	anthy? ( unicode? ( >=app-i18n/anthy-8622 ) !unicode? ( app-i18n/anthy ) )
+		x11-libs/libXrender
+	)
+	anthy? (
+		unicode? ( >=app-i18n/anthy-8622 )
+		!unicode? ( app-i18n/anthy )
+	)
 	canna? ( app-i18n/canna )
 	eb? ( dev-libs/eb )
 	emacs? ( virtual/emacs )
@@ -45,18 +49,29 @@ RDEPEND="X? ( x11-libs/libX11
 #	wnn? ( app-i18n/wnn )
 
 DEPEND="${RDEPEND}
-	X? ( x11-proto/xextproto
-		x11-proto/xproto )
-	nls? ( sys-devel/gettext )"
+	dev-util/pkgconfig
+	>=sys-devel/gettext-0.15
+	X? (
+		x11-proto/xextproto
+		x11-proto/xproto
+	)"
 
 RDEPEND="${RDEPEND}
 	X? (
 		media-fonts/font-sony-misc
-		linguas_zh_CN? ( media-fonts/font-isas-misc )
-		linguas_ja? ( media-fonts/font-jis-misc )
-		linguas_ko? ( media-fonts/font-daewoo-misc )
+		linguas_zh_CN? (
+			|| ( media-fonts/font-isas-misc media-fonts/intlfonts )
+		)
+		linguas_zh_TW? (
+			media-fonts/intlfonts
+		)
+		linguas_ja? (
+			|| ( media-fonts/font-jis-misc media-fonts/intlfonts )
+		)
+		linguas_ko? (
+			|| ( media-fonts/font-daewoo-misc media-fonts/intlfonts )
+		)
 	)"
-#		linguas_zh_TW? ( media-fonts/taipeifonts )
 
 SITEFILE=50${PN}-gentoo.el
 
@@ -68,6 +83,14 @@ pkg_setup() {
 
 src_prepare() {
 	epatch "${FILESDIR}/${P}-gentoo.patch"
+	epatch "${FILESDIR}/${P}-gcc43.patch"
+	epatch "${FILESDIR}/${P}-zhTW.patch"
+	# Stolen from enlightenment.eclass
+	cp $(type -p gettextize) "${T}/" || die
+	sed -i -e '/read dummy/d' "${T}/gettextize" || die
+	( "${T}/gettextize" -f --no-changelog > /dev/null ) || die "gettexize failed"
+	intltoolize -f || die
+	elibtoolize
 }
 
 src_configure() {
@@ -173,7 +196,7 @@ pkg_postinst() {
 	elog "If you upgrade from a version of uim older than 1.4.0,"
 	elog "you should run revdep-rebuild."
 
-	use gtk && gtk-query-immodules-2.0 > "${ROOT}/${GTK2_CONFDIR}/gtk.immodules"
+	use gtk && gtk-query-immodules-2.0 > "${EROOT}/${GTK2_CONFDIR}/gtk.immodules"
 	if use emacs; then
 		elisp-site-regen
 		echo
@@ -186,6 +209,6 @@ pkg_postinst() {
 }
 
 pkg_postrm() {
-	use gtk && gtk-query-immodules-2.0 > "${ROOT}/${GTK2_CONFDIR}/gtk.immodules"
+	use gtk && gtk-query-immodules-2.0 > "${EROOT}/${GTK2_CONFDIR}/gtk.immodules"
 	use emacs && elisp-site-regen
 }
