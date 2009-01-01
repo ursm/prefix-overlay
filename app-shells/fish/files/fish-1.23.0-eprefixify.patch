@@ -29,29 +29,28 @@ diff --git a/share/config.fish.in b/share/config.fish.in
  # Set default field separators
  #
  
-@@ -72,21 +81,15 @@
+@@ -72,18 +81,21 @@
  # want this even for text-only terminals.
  #
  
 -set -l path_list /bin /usr/bin /usr/X11R6/bin /usr/local/bin @prefix@/bin @optbindirs@
--
++set -l path_list @GENTOO_PORTAGE_EPREFIX@/usr/bin @GENTOO_PORTAGE_EPREFIX@/bin $PATH /usr/bin /bin
+ 
  # Root should also have the sbin directories in the path
  switch $USER
  	case root
 -	set path_list $path_list /sbin /usr/sbin /usr/local/sbin @prefix@/sbin
-+	set -x PATH @GENTOO_PORTAGE_EPREFIX@/usr/sbin @GENTOO_PORTAGE_EPREFIX@/usr/bin @GENTOO_PORTAGE_EPREFIX@/sbin @GENTOO_PORTAGE_EPREFIX@/bin $ROOTPATH /usr/sbin /usr/bin /sbin /bin
-+	case '*'
-+	set -x PATH @GENTOO_PORTAGE_EPREFIX@/usr/bin @GENTOO_PORTAGE_EPREFIX@/bin $PATH /usr/bin /bin
++	set path_list $path_list @GENTOO_PORTAGE_EPREFIX@/usr/sbin @GENTOO_PORTAGE_EPREFIX@/sbin $ROOT_PATH /usr/sbin /sbin
  end
  
--for i in $path_list
--	if not contains $i $PATH
--		if test -d $i
--			set PATH $PATH $i
--		end
--	end
--end
++set -e PATH
 +set -e ROOTPATH
- 
- #
- # Launch debugger on SIGTRAP
++
+ for i in $path_list
+ 	if not contains $i $PATH
+ 		if test -d $i
+-			set PATH $PATH $i
++			set -x PATH $PATH $i
+ 		end
+ 	end
+ end
