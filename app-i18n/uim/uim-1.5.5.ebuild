@@ -1,9 +1,9 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-i18n/uim/uim-1.5.4-r2.ebuild,v 1.1 2008/12/09 17:46:04 matsuu Exp $
+# $Header: /var/cvsroot/gentoo-x86/app-i18n/uim/uim-1.5.5.ebuild,v 1.1 2009/01/22 17:39:09 matsuu Exp $
 
 EAPI="prefix 2"
-inherit autotools eutils qt3 multilib elisp-common flag-o-matic
+inherit eutils qt3 multilib elisp-common flag-o-matic
 
 DESCRIPTION="Simple, secure and flexible input method library"
 HOMEPAGE="http://code.google.com/p/uim/"
@@ -12,7 +12,7 @@ SRC_URI="http://uim.googlecode.com/files/${P}.tar.bz2"
 LICENSE="BSD GPL-2 LGPL-2.1"
 SLOT="0"
 KEYWORDS="~amd64-linux ~x86-linux ~x86-macos"
-IUSE="+anthy canna eb emacs gnome gtk kde libedit libnotify m17n-lib ncurses nls prime qt3 qt4 truetype unicode X linguas_zh_CN linguas_zh_TW linguas_ja linguas_ko"
+IUSE="+anthy canna eb emacs gnome gtk kde libedit libnotify m17n-lib ncurses nls prime qt3 qt4 unicode X xft linguas_zh_CN linguas_zh_TW linguas_ja linguas_ko"
 
 RDEPEND="X? (
 		x11-libs/libX11
@@ -82,15 +82,9 @@ pkg_setup() {
 }
 
 src_prepare() {
-	epatch "${FILESDIR}/${P}-gentoo.patch"
-	epatch "${FILESDIR}/${P}-gcc43.patch"
-	epatch "${FILESDIR}/${P}-zhTW.patch"
-	# Stolen from enlightenment.eclass
-	cp $(type -p gettextize) "${T}/" || die
-	sed -i -e '/read dummy/d' "${T}/gettextize" || die
-	( "${T}/gettextize" -f --no-changelog > /dev/null ) || die "gettexize failed"
-	intltoolize -f || die
-	elibtoolize
+	epatch "${FILESDIR}/${PN}-1.5.4-gentoo.patch"
+	epatch "${FILESDIR}/${PN}-1.5.4-gcc43.patch"
+	epatch "${FILESDIR}/${PN}-1.5.4-zhTW.patch"
 }
 
 src_configure() {
@@ -122,12 +116,6 @@ src_configure() {
 		myconf="${myconf} --without-anthy"
 	fi
 
-	if use qt3 ; then
-		myconf="${myconf} --with-qt"
-	else
-		myconf="${myconf} --without-qt"
-	fi
-
 	if use qt3 && use kde ; then
 		myconf="${myconf} --enable-notify=knotify3"
 	elif use libnotify ; then
@@ -147,9 +135,10 @@ src_configure() {
 		$(use_enable ncurses fep) \
 		$(use_enable nls) \
 		$(use_with prime) \
+		$(use_with qt3 qt) \
 		$(use_with qt3 qt-immodule) \
 		$(use_with qt4 qt4-immodule) \
-		$(use_with truetype xft) \
+		$(use_with xft) \
 		${myconf} || die "econf failed"
 }
 
@@ -163,7 +152,7 @@ src_compile() {
 }
 
 src_install() {
-	# parallel make install borks, bug #222677
+	# parallel make install b0rked, bug #222677
 	emake -j1 INSTALL_ROOT="${D}" DESTDIR="${D}" install || die "make install failed"
 
 	dodoc AUTHORS ChangeLog* NEWS README RELNOTE
@@ -177,8 +166,6 @@ src_install() {
 pkg_postinst() {
 	elog
 	elog "To use uim-skk you should emerge app-i18n/skk-jisyo."
-	elog
-
 	elog
 	elog "New input method switcher has been introduced. You need to set"
 	elog
