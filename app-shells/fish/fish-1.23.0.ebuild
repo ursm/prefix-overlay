@@ -4,7 +4,7 @@
 
 EAPI="prefix"
 
-inherit eutils autotools
+inherit eutils autotools prefix
 
 DESCRIPTION="fish is the Friendly Interactive SHell"
 HOMEPAGE="http://fishshell.org/"
