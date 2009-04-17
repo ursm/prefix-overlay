@@ -2,8 +2,6 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="prefix 2"
-
 inherit python mercurial
 
 KEYWORDS="~x86-macos"

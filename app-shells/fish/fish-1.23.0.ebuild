@@ -2,8 +2,6 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/app-shells/fish/fish-1.23.0.ebuild,v 1.2 2008/06/15 22:27:56 loki_val Exp $
 
-EAPI="prefix"
-
 inherit eutils autotools prefix
 
 DESCRIPTION="fish is the Friendly Interactive SHell"

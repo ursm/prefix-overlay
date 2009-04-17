@@ -4,7 +4,7 @@
 
 inherit eutils toolchain-funcs multilib
 
-EAPI="prefix 1"
+EAPI="1"
 
 RESTRICT="installsources"
 EXTRAPV="-3"

@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="prefix 2"
+EAPI="2"
 
 inherit python mercurial
 

@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/app-i18n/uim/uim-1.5.5.ebuild,v 1.1 2009/01/22 17:39:09 matsuu Exp $
 
-EAPI="prefix 2"
+EAPI="2"
 inherit eutils qt3 multilib elisp-common flag-o-matic
 
 DESCRIPTION="Simple, secure and flexible input method library"
