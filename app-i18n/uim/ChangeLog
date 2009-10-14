@@ -1,6 +1,66 @@
 # ChangeLog for app-i18n/uim
-# Copyright 2000-2009 Gentoo Foundation; Distributed under the GPL v2
-# $Header: /var/cvsroot/gentoo-x86/app-i18n/uim/ChangeLog,v 1.191 2009/01/22 17:39:09 matsuu Exp $
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
+# $Header: /var/cvsroot/gentoo-x86/app-i18n/uim/ChangeLog,v 1.206 2009/10/11 16:03:55 armin76 Exp $
+
+  11 Oct 2009; Raúl Porcel <armin76@gentoo.org> uim-1.5.6-r1.ebuild:
+  sparc stable wrt #268190
+
+  27 Sep 2009; Brent Baude <ranger@gentoo.org> uim-1.5.6-r1.ebuild:
+  Marking uim-1.5.6-r1 ppc64 for bug 268190
+
+*uim-1.5.6-r3 (17 Sep 2009)
+
+  17 Sep 2009; MATSUU Takuto <matsuu@gentoo.org> -uim-1.5.5-r1.ebuild,
+  -uim-1.5.6.ebuild, +uim-1.5.6-r3.ebuild:
+  Fixed qt3 and qt4 USE flags issue, bug #257266.
+
+*uim-1.5.6-r2 (16 Sep 2009)
+
+  16 Sep 2009; MATSUU Takuto <matsuu@gentoo.org> +uim-1.5.6-r2.ebuild,
+  +files/uim-disable-notify.diff:
+  backport from trunk for build issue, bug #284815.
+
+  15 Sep 2009; Jeroen Roovers <jer@gentoo.org> uim-1.5.6-r1.ebuild:
+  Stable for HPPA (bug #268190).
+
+  05 Sep 2009; Markus Meier <maekke@gentoo.org> uim-1.5.6-r1.ebuild:
+  amd64 stable, bug #268190
+
+  29 Aug 2009; nixnut <nixnut@gentoo.org> uim-1.5.6-r1.ebuild:
+  ppc stable #268190
+
+  25 Aug 2009; Tobias Klausmann <klausman@gentoo.org> uim-1.5.6-r1.ebuild:
+  Stable on alpha, bug #268190
+
+  25 Aug 2009; Christian Faulhammer <fauli@gentoo.org> uim-1.5.6-r1.ebuild:
+  stable x86, bug 268190
+
+*uim-1.5.6-r1 (28 Jun 2009)
+
+  28 Jun 2009; MATSUU Takuto <matsuu@gentoo.org> +uim-1.5.6-r1.ebuild:
+  Fixed libedit related issue, bug #275420.
+
+*uim-1.5.6 (25 Jun 2009)
+
+  25 Jun 2009; MATSUU Takuto <matsuu@gentoo.org> -uim-1.5.4-r2.ebuild,
+  -uim-1.5.5.ebuild, +uim-1.5.6.ebuild:
+  Version bumped. Removed old versions.
+
+  24 Jun 2009; Jeroen Roovers <jer@gentoo.org> uim-1.5.4-r2.ebuild,
+  uim-1.5.5.ebuild:
+  Marked ~hppa (bug #27524).
+
+  24 Jun 2009; Jeroen Roovers <jer@gentoo.org> uim-1.5.5-r1.ebuild:
+  Marked ~hppa (bug #27524).
+
+  24 Jun 2009; Jeroen Roovers <jer@gentoo.org> uim-1.4.2.ebuild:
+  Stable for HPPA (bug #216759).
+
+*uim-1.5.5-r1 (24 May 2009)
+
+  24 May 2009; MATSUU Takuto <matsuu@gentoo.org> +uim-1.5.5-r1.ebuild,
+  +files/uim-1.5.5-applet.patch:
+  Fixed #270112.
 
 *uim-1.5.5 (22 Jan 2009)
 

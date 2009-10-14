@@ -1,9 +1,9 @@
 # Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-i18n/uim/uim-1.5.5.ebuild,v 1.1 2009/01/22 17:39:09 matsuu Exp $
+# $Header: /var/cvsroot/gentoo-x86/app-i18n/uim/uim-1.5.6-r3.ebuild,v 1.1 2009/09/17 16:57:45 matsuu Exp $
 
 EAPI="2"
-inherit eutils qt3 multilib elisp-common flag-o-matic
+inherit autotools eutils qt3 multilib elisp-common flag-o-matic
 
 DESCRIPTION="Simple, secure and flexible input method library"
 HOMEPAGE="http://code.google.com/p/uim/"
@@ -11,7 +11,7 @@ SRC_URI="http://uim.googlecode.com/files/${P}.tar.bz2"
 
 LICENSE="BSD GPL-2 LGPL-2.1"
 SLOT="0"
-KEYWORDS="~amd64-linux ~x86-linux ~x86-macos"
+KEYWORDS="~amd64-linux ~x86-linux ~x64-macos"
 IUSE="+anthy canna eb emacs gnome gtk kde libedit libnotify m17n-lib ncurses nls prime qt3 qt4 unicode X xft linguas_zh_CN linguas_zh_TW linguas_ja linguas_ko"
 
 RDEPEND="X? (
@@ -51,6 +51,7 @@ RDEPEND="X? (
 DEPEND="${RDEPEND}
 	dev-util/pkgconfig
 	>=sys-devel/gettext-0.15
+	>=dev-util/intltool-0.36.3
 	X? (
 		x11-proto/xextproto
 		x11-proto/xproto
@@ -85,6 +86,11 @@ src_prepare() {
 	epatch "${FILESDIR}/${PN}-1.5.4-gentoo.patch"
 	epatch "${FILESDIR}/${PN}-1.5.4-gcc43.patch"
 	epatch "${FILESDIR}/${PN}-1.5.4-zhTW.patch"
+	epatch "${FILESDIR}/${PN}-disable-notify.diff"
+
+	# bug 275420
+	sed -i -e "s:\$libedit_path/lib:/$(get_libdir):g" configure.ac || die
+	eautoconf
 }
 
 src_configure() {
@@ -116,7 +122,7 @@ src_configure() {
 		myconf="${myconf} --without-anthy"
 	fi
 
-	if use qt3 && use kde ; then
+	if use qt3 && use kde && ! use qt4 ; then
 		myconf="${myconf} --enable-notify=knotify3"
 	elif use libnotify ; then
 		myconf="${myconf} --enable-notify=libnotify"
