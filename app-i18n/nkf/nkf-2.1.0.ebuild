@@ -4,31 +4,23 @@
 
 inherit toolchain-funcs eutils perl-module distutils
 
-MY_P="nkf${PV//./}"
 DESCRIPTION="Network Kanji code conversion Filter with UTF-8/16 support"
 HOMEPAGE="http://sourceforge.jp/projects/nkf/"
-SRC_URI="mirror://sourceforge.jp/nkf/20770/${MY_P}.tar.gz
-	python? ( http://city.plala.jp/download/nkf/NKF_python.tgz )"
+SRC_URI="mirror://sourceforge.jp//nkf/44486/${P}.tar.gz"
 
 LICENSE="as-is"
 SLOT="0"
-KEYWORDS="~amd64-linux ~ia64-linux ~x86-linux ~x86-macos"
-IUSE="perl python linguas_ja"
+KEYWORDS="~amd64-linux ~ia64-linux ~x86-linux ~x86-macos ~x64-macos"
+IUSE="perl linguas_ja"
 
-S="${WORKDIR}/${MY_P}"
+S="${WORKDIR}/${P}"
 
 src_unpack() {
-	unpack ${MY_P}.tar.gz
+	unpack ${P}.tar.gz
 
 	cd "${S}"
 
 	sed -i -e '/-o nkf/s:$(CFLAGS):$(CFLAGS) $(LDFLAGS):' Makefile || die
-
-	if use python; then
-		unpack NKF_python.tgz
-		# bug #248725
-		sed -i -e "s/-s/${CFLAGS}/" NKF.python/setup.py || die
-	fi
 }
 
 src_compile() {
@@ -36,10 +28,6 @@ src_compile() {
 	if use perl; then
 		cd "${S}/NKF.mod"
 		perl-module_src_compile
-	fi
-	if use python; then
-		cd "${S}/NKF.python"
-		distutils_src_compile
 	fi
 }
 
@@ -62,9 +50,5 @@ src_install() {
 	if use perl; then
 		cd "${S}/NKF.mod"
 		perl-module_src_install
-	fi
-	if use python; then
-		cd "${S}/NKF.python"
-		distutils_src_install
 	fi
 }
