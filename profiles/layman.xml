@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <layman>
-  <overlay type="mercurial" src="https://bitbucket.org/ursm/prefix-overlay/" contact="ursm@ursm.jp" name="ursm">
+  <overlay type="git" src="git://github.com/ursm/prefix-overlay.git" contact="ursm@ursm.jp" name="Keita Urashima">
     <description>ursm's prefix overlay</description>
   </overlay>
 </layman>
